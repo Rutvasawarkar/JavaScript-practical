@@ -1,0 +1,50 @@
+<html>
+<body>
+<h3>Text Analysis</h3>
+<textarea id="txt" rows="5" cols="60" placeholder="Enter text"></textarea><br>
+<button onclick="analyze()">Analyze</button>
+<div id="result"></div>
+
+<script>
+function analyze() {
+    let s = txt.value;
+    let words = s.toLowerCase().match(/\b\w+\b/g) || [];
+    let emails = s.match(/[^\s,;]+@[^\s,;]+/g) || [];
+    let phones = s.match(/\b\d{10}\b/g) || [];
+    let python = words.filter(x => x == "python").length;
+
+    let validEmails = emails.map(x =>
+        x + " — " + (/^[\w.+-]+@[\w.-]+\.[a-z]{2,}$/i.test(x) ? "Valid" : "Invalid")
+    );
+
+    result.innerHTML = `
+    <h4>1. Email Validation</h4>${validEmails.join("<br>")}
+    <h4>2. Phone Number Extraction</h4>${phones.join(", ")}
+    <h4>3. Text Analysis</h4>
+    Total Characters: ${s.length}<br>
+    Total Words: ${words.length}<br>
+    Unique Words: ${new Set(words).size}
+
+    <h4>4. Word Frequency</h4>
+    Frequency of "python": ${python}
+
+    <h4>5. Words Starting With 'P'</h4>
+    ${words.filter(x => x.startsWith("p")).join(", ")}
+
+    <h4>6. Words Ending With 'ING'</h4>
+    ${words.filter(x => x.endsWith("ing")).join(", ")}
+
+    <h4>7. Words Longer Than 6 Characters</h4>
+    ${words.filter(x => x.length > 6).join(", ")}
+
+    <h4>8. String Functions</h4>
+    Uppercase: ${s.toUpperCase()}<br>
+    Lowercase: ${s.toLowerCase()}<br>
+    Starts with "Hello": ${s.trim().startsWith("Hello")}<br>
+    Contains "Python": ${s.includes("Python")}<br>
+    Number of occurrences of "Python": ${(s.match(/\bpython\b/gi) || []).length}
+    `;
+}
+</script>
+</body>
+</html>
