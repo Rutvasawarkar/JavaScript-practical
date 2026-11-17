@@ -1,0 +1,43 @@
+<html>
+<body>
+<h3>Countdown Timer</h3>
+<h2 id="time">10</h2>
+<button onclick="start()">Start</button>
+<button onclick="stop()">Stop</button>
+<p id="msg"></p>
+
+<h3>Live Clock</h3>
+<h2 id="clock"></h2>
+
+<script>
+let n = 10, timer;
+
+function start() {
+    clearInterval(timer);
+    n = 10;
+    time.innerHTML = n;
+    msg.innerHTML = "";
+
+    setTimeout(() => msg.innerHTML = "Timer Started!", 100);
+
+    timer = setInterval(() => {
+        time.innerHTML = --n;
+
+        if (n == 0) {
+            clearInterval(timer);
+            msg.innerHTML = "Time Up!";
+        }
+    }, 1000);
+}
+
+function stop() {
+    clearInterval(timer);
+    msg.innerHTML = "Timer Stopped!";
+}
+
+setInterval(() => {
+    clock.innerHTML = new Date().toLocaleTimeString();
+}, 1000);
+</script>
+</body>
+</html>
