@@ -1,0 +1,35 @@
+<html>
+<body>
+<h3>Gym Admission Form</h3>
+<form id="f">
+    <input id="n" placeholder="Name" oninput="validate()"><br>
+    <input id="e" placeholder="Email" oninput="validate()"><br>
+    <input id="p" placeholder="10-digit Phone" oninput="validate()"><br>
+    <input id="a" type="number" placeholder="Age" oninput="validate()"><br>
+    <select id="m" onchange="validate()">
+        <option value="">Select Membership</option>
+        <option>Monthly</option>
+        <option>Yearly</option>
+    </select><br>
+    <button>Submit</button>
+</form>
+<p id="msg"></p>
+
+<script>
+function validate() {
+    let valid = n.value.trim() &&
+        /^[^ ]+@[^ ]+\.[a-z]{2,}$/i.test(e.value) &&
+        /^[0-9]{10}$/.test(p.value) &&
+        a.value >= 18 && a.value <= 60 && m.value;
+
+    msg.innerHTML = valid ? "All fields are valid" : "Enter valid details";
+    return valid;
+}
+
+f.onsubmit = function(event) {
+    event.preventDefault();
+    if (validate()) msg.innerHTML = "Admission Successful!";
+};
+</script>
+</body>
+</html>
