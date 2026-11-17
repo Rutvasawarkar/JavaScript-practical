@@ -1,0 +1,41 @@
+<html>
+<body>
+<h3>Shopping Cart</h3>
+<input id="n" placeholder="Item">
+<input id="p" type="number" placeholder="Price">
+<input id="q" type="number" placeholder="Quantity">
+<button onclick="add()">Add</button>
+<table border="1" id="t"></table>
+<p id="total"></p>
+
+<script>
+let cart = [];
+
+function add() {
+    cart.push({name:n.value, price:+p.value, qty:+q.value});
+    display();
+}
+
+function remove(i) {
+    cart.splice(i,1);
+    display();
+}
+
+function display() {
+    t.innerHTML = "<tr><th>Item</th><th>Amount</th><th>Action</th></tr>";
+    let sum = 0;
+
+    cart.forEach((x,i) => {
+        let amount = x.price * x.qty;
+        sum += amount;
+        t.innerHTML += `<tr><td>${x.name}</td><td>${amount}</td>
+        <td><button onclick="remove(${i})">Remove</button></td></tr>`;
+    });
+
+    let d = sum>5000?20:sum>2000?15:sum>1000?10:sum>500?5:0;
+    total.innerHTML = `Total: ₹${sum}<br>Discount: ${d}%<br>
+    Final Amount: ₹${sum-sum*d/100}`;
+}
+</script>
+</body>
+</html>
