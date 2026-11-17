@@ -1,0 +1,82 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h2>To-Do App</h2>
+
+<form id="f">
+    <input id="task" placeholder="Enter task">
+    <button>Add</button>
+</form>
+
+<br>
+<button id="load">Load AJAX Tasks</button>
+<button id="clear">Clear All</button>
+
+<ul id="list"></ul>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [
+    "Complete assignment",
+    "Revise JavaScript",
+    "Practice coding",
+    "Prepare for viva",
+    "Submit project"
+];
+
+function save() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    display();
+}
+
+function display() {
+    $("#list").empty();
+
+    tasks.forEach((x,i) => {
+        let li = $("<li>").text(x);
+        let btn = $("<button>").text("Delete");
+
+        btn.click(() => {
+            tasks.splice(i,1);
+            save();
+        });
+
+        li.append(" ", btn);
+        $("#list").append(li);
+    });
+}
+
+$("#f").submit(function(e) {
+    e.preventDefault();
+
+    let x = $("#task").val().trim();
+    if (x) {
+        tasks.push(x);
+        $("#task").val("");
+        save();
+    }
+});
+
+$("#load").click(function() {
+    $.ajax({
+        url: "https://dummyjson.com/todos?limit=5",
+        success: function(data) {
+            data.todos.forEach(x => tasks.push(x.todo));
+            save();
+        },
+        error: function() {
+            alert("Error loading tasks");
+        }
+    });
+});
+
+$("#clear").click(function() {
+    tasks = [];
+    save();
+});
+
+display();
+</script>
+</body>
+</html>
